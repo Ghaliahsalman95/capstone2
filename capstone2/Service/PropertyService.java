@@ -125,9 +125,11 @@ private  final TenantRepositry tenantRepositry;
                 boolean leasesExpired = leases.stream().allMatch(lease -> lease.getEndDate().isBefore(LocalDate.now()));
                 if (leasesExpired) {
                     emptyProperties.add(property);
+
                 }
             }
         }
+        if (emptyProperties.isEmpty()){throw new APIException("Empty free Properties");}
         return emptyProperties;
 }
 ///-----------------------------------  4 ----------------------------------
@@ -173,6 +175,9 @@ private  final TenantRepositry tenantRepositry;
 
                 }
             }
+        }
+        if (shortLeases.isEmpty()){
+            throw new APIException("Empty short Leases");
         }
         return shortLeases;
     }

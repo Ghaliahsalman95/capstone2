@@ -97,10 +97,12 @@ public class TenantService {
         if (tenantRepositry.findByID(tenantID) != null) {
             if (maintenanceRequestRepositry.findMaintenanceRequestByIdAndAndTenantId(mainRequestID, tenantID) != null) {
                 MaintenanceRequest maintenanceRequest = maintenanceRequestRepositry.findByID(mainRequestID);
-                if (LocalDate.now().isAfter(maintenanceRequest.getDateRequested().plusMonths(3))) {
+                if (LocalDate.now().isAfter(maintenanceRequest.getDateRequested().plusDays(15))) {
                     MaintenanceRequest resendrequest = maintenanceRequestRepositry.findByID(mainRequestID);
                     resendrequest.setDateRequested(LocalDate.now());//this is updated only
                     maintenanceRequestService.update(mainRequestID, resendrequest);
+                } else {
+                    throw new APIException("Maintenance Request with ID " + mainRequestID + " Still pending status within period less 15 days");
                 }
             } else {
                 throw new APIException("Maintenance Request with ID " + mainRequestID + " not found");

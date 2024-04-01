@@ -120,6 +120,8 @@ public class LeaseService {
                 if (lease != null && l.getEndDate() != null && l.getEndDate().isBefore(LocalDate.now().plusMonths(1)) && tenant.getMoveOutDate() == null) {
                     tenant.setMoveOutDate(LocalDate.now());
                     tenantRepositry.save(tenant);
+
+
                 }
             }
         }
